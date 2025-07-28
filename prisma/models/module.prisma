@@ -1,0 +1,9 @@
+model Module {
+  id   String    @id @default(cuid())
+  name String
+  slug String
+
+  OrganizationModule OrganizationModule[]
+
+  @@map("modules")
+}

@@ -1,0 +1,12 @@
+model UserPermission {
+  id String @id @default(cuid())
+
+  user   User @relation(fields: [userId], references: [id])
+  userId String
+
+  permission   Permission @relation(fields: [permissionId], references: [id])
+  permissionId String
+
+  @@unique([userId, permissionId])
+  @@map("user_permissions")
+}

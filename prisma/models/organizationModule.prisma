@@ -1,0 +1,12 @@
+model OrganizationModule {
+  id String @id @default(cuid())
+
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+
+  module   Module @relation(fields: [moduleId], references: [id])
+  moduleId String
+
+  @@unique([organizationId, moduleId])
+  @@map("organization_modules")
+}

@@ -19,9 +19,18 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@/app/generated/prisma/client": ["./app/generated/prisma/client/index"],
+      "@/app/generated/prisma/pothos-types": ["./app/generated/prisma/pothos-types/index"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/generated/**/*.ts",
+    "app/generated/**/*.d.ts"
+  ],
   "exclude": ["node_modules"]
 }
