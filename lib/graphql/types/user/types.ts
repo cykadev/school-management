@@ -11,6 +11,9 @@ builder.prismaObject('User', {
     status: t.exposeString('status'),
     createdAt: t.expose('createdAt', { type: 'DateTime' }),
     updatedAt: t.expose('updatedAt', { type: 'DateTime' }),
+
+    organization: t.relation('organization'),
+
   }),
 });
 

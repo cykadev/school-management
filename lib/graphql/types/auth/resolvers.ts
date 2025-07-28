@@ -3,16 +3,21 @@ import { hash, compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { AuthPayload, LoginInput } from './types';
 import { GraphQLError } from 'graphql';
-import { OrganizationStatus, User } from '@prisma/client';
+import { OrganizationStatus, UserStatus } from '@prisma/client';
 
 builder.queryFields((t) => ({
-  me: t.prismaField({
-    type: 'User',
-    args: {},
-    resolve: async (query, _, args, ctx) => {
-      return ctx.user
-    },
-  })
+    me: t.prismaField({
+        type: 'User',
+        args: {},
+        resolve: async (query, _, args, ctx) => {
+            return ctx.prisma.user.findUnique({
+                where: { id: ctx.user?.id },
+                include: {
+                    organization: true
+                }
+            });
+        },
+    })
 }));
 
 builder.mutationFields((t) => ({
@@ -43,14 +48,14 @@ builder.mutationFields((t) => ({
             }
 
             // check if user status is disable then throw error
-            if(user.status === UserStatus.DISABLED){
+            if (user.status === UserStatus.DISABLED) {
                 throw new GraphQLError('Your account is deactivated, Please contact your organization for further details.', {
                     extensions: { code: 'ACCOUNT_DISABLED' }
                 });
             }
 
             // check if organization status is disable then throw error
-            if(user.organization?.status === OrganizationStatus.DISABLED){
+            if (user.organization?.status === OrganizationStatus.DISABLED) {
                 throw new GraphQLError('Your organization is disabled, Please contact your organization for further details.', {
                     extensions: { code: 'ORG_ACCOUNT_DISABLED' }
                 });
@@ -64,7 +69,7 @@ builder.mutationFields((t) => ({
 
             // Set the cookie using the cookieStore from the context's request
             // The cookieStore is made available on the request object by the plugin.
-            
+
             try {
                 // @ts-ignore -- cookieStore appended dynamically by @whatwg-node/server-plugin-cookies plugin
                 await request.cookieStore.set({
@@ -85,7 +90,7 @@ builder.mutationFields((t) => ({
             // 4. Return the user or a success message, etc.
             return {
                 user,
-                message: 'Login successful' + request,
+                message: 'Login successful',
             };
 
         },

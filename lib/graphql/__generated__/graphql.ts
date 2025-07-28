@@ -32,7 +32,7 @@ export type Scalars = {
 
 export type AuthPayload = {
   __typename?: "AuthPayload";
-  token?: Maybe<Scalars["String"]["output"]>;
+  message?: Maybe<Scalars["String"]["output"]>;
   user?: Maybe<User>;
 };
 
@@ -82,6 +82,7 @@ export enum OrganizationStatus {
 
 export type Query = {
   __typename?: "Query";
+  me?: Maybe<User>;
   organization?: Maybe<Organization>;
   organizations?: Maybe<Array<Organization>>;
   user?: Maybe<User>;
@@ -111,6 +112,7 @@ export type User = {
   firstName?: Maybe<Scalars["String"]["output"]>;
   id?: Maybe<Scalars["ID"]["output"]>;
   lastName?: Maybe<Scalars["String"]["output"]>;
+  organization?: Maybe<Organization>;
   role?: Maybe<Scalars["String"]["output"]>;
   status?: Maybe<Scalars["String"]["output"]>;
   updatedAt?: Maybe<Scalars["DateTime"]["output"]>;

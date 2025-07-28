@@ -1,5 +1,5 @@
 type AuthPayload {
-  token: String
+  message: String
   user: User
 }
 
@@ -39,6 +39,7 @@ enum OrganizationStatus {
 }
 
 type Query {
+  me: User
   organization(id: String!): Organization
   organizations(status: OrganizationStatus): [Organization!]
   user(id: String!): User
@@ -51,6 +52,7 @@ type User {
   firstName: String
   id: ID
   lastName: String
+  organization: Organization
   role: String
   status: String
   updatedAt: DateTime
